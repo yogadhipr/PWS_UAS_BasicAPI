@@ -42,30 +42,46 @@ public class ProductServiceController {
     
     //DELETE API
     @RequestMapping(value = "/products/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> delete(@PathVariable("id") String id) { 
+    public ResponseEntity<Object> delete(@PathVariable("id") String id) {
+        if(!productRepo.containsKey(id)){
+        
+        return new ResponseEntity<>("product could not be found", HttpStatus.NOT_FOUND);
+        }
       productRepo.remove(id); //menghapus product menggunakan id yg tersimpan di HashMap
       return new ResponseEntity<>("Product is deleted successsfully", HttpStatus.OK); //popup berhasil product didelete
-   }
-   
+    }  
     //PUT API 
     @RequestMapping(value = "/products/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> updateProduct(@PathVariable("id") String id, @RequestBody Product product) { 
+        if(!productRepo.containsKey(product.getId())){
+        
+        return new ResponseEntity<>("product is null", HttpStatus.NOT_FOUND);
+        }
       productRepo.remove(id); 
       product.setId(id); 
       productRepo.put(id, product); //memanggil id dan nama product yang akan di update 
+      
       return new ResponseEntity<>("Product is updated successsfully", HttpStatus.OK);
    }
    
     //POST API
     @RequestMapping(value = "/products", method = RequestMethod.POST)
     public ResponseEntity<Object> createProduct(@RequestBody Product product) {
+        if(!productRepo.containsKey(product.getId())){
+        
+        return new ResponseEntity<>("product si already exist with ID : " +product.getId(), HttpStatus.NOT_FOUND);
+        }
       productRepo.put(product.getId(), product);
+      
       return new ResponseEntity<>("Product is created successfully", HttpStatus.CREATED);
    }
     
    //GET API
     @RequestMapping(value = "/products")
     public ResponseEntity<Object> getProduct(){
+        if (productRepo.isEmpty()){
+       return new ResponseEntity<>("product is null", HttpStatus.NOT_FOUND);
+       }
         return new ResponseEntity<>(productRepo.values(), HttpStatus.OK);
     }
 }
