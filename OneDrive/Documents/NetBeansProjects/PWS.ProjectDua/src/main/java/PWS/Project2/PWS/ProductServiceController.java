@@ -28,19 +28,16 @@ public class ProductServiceController {
         Product honey = new Product(); //membuat product baru dan memanggil file Product.java
         honey.setId("1"); //membuat id product
         honey.setName("Honey"); //membuat nama product
+        honey.setHarga("Rp 135.000");
+        honey.setStock("24");
         productRepo.put(honey.getId(), honey); //memasukkan product baru ke HashMap
         
         Product almond = new Product();
         almond.setId("2");
         almond.setName("Almond");
-        productRepo.put(almond.getId(), almond);
-        
-        Product cokelat = new Product();
-        cokelat.setId("3");
-        cokelat.setName("Chocolate");
-        productRepo.put(cokelat.getId(), cokelat);
-        
-        
+        almond.setHarga("Rp 95.000");
+        almond.setStock("153");
+        productRepo.put(almond.getId(), almond);    
     }
     
     //DELETE API
