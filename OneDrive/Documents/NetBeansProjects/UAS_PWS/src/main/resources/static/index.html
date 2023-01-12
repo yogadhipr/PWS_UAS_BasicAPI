@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>UAS PWS</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </head>
+    <body>
+        <div><h1>Content</h1></div>
+        <hr/>
+        
+        <script>
+            
+            function getData(){
+                const url = "http://localhost:8081/get";
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    dataType: 'text',
+                    
+                    success: function(message){
+                    
+                    document.getElementById("view").innerHTML = message;
+                    console.log(message);
+                    }
+                });
+            }
+            
+            function delData(){
+            
+                    let editId = document.getElementById("id").value;
+                    let name = document.getElementById("name").value;
+                    let jumlah = document.getElementById("jumlahbarang").value;
+                    let gambar = document.getElementById("brg").value;
+                    let dataText = { "id": editID, "jumlah": jumlah, "nama": name };
+                    let dataFile = {"gbr":gambar};
+                    let dataJson = JSON.stringify(dataText);
+                    
+                    const url= "http://localhost:8081/del/"+id;
+                $.ajax({
+                
+                    url: url,
+                    method:'DELETE',
+                    data: dataJson,
+                    contentType: "application/json",
+                    dataType: "text",
+                    success: function(message){
+                        
+                        document.getElementById("view").innerHTML = message;
+                        
+                    }
+                });
+            }
+            
+            
+            function postData() {
+                let editID = document.getElementById("id").value;
+                let name = document.getElementById("name").value;
+                let jumlah = document.getElementById("jumlahbarang").value;
+                let dataText = { "id": editID, "jumlah": jumlah, "nama": name };
+                let dataJson = JSON.stringify(dataText);
+                
+                const url= "http://localhost:8081/post/"
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: dataJson,
+                    contentType: 'application/json',
+                    dataType: 'text',
+                    success: function (message) {
+                        document.getElementById("view").innerHTML = message;
+                        console.log(dataText);
+                        console.log(message);
+                    },
+                });
+            }
+            
+            
+            function putData() {
+                let editID = document.getElementById("id").value;
+                let name = document.getElementById("name").value;
+                let jumlah = document.getElementById("jumlahbarang").value;
+                let dataText = { "id": editID, "jumlah": jumlah, "nama": name };
+                let dataJson = JSON.stringify(dataText);
+                
+                const url= "http://localhost:8081/put"
+                $.ajax({
+                    url: url,
+                    method: "PUT",
+                    data: dataJson,
+                    contentType: "application/json",
+                    dataType: "text",
+                    success: function(message){
+                        document.getElementById("view").innerHTML = message;
+                        console.log(message);
+                    
+                    },
+                });
+            }
+        </script>
+        
+        ID : <input type="text" id="id" name="id" /><br />
+        Name : <input type="text" id="name" name="name" /><br />
+        Jumlah Barang :<input type="text" id="jumlahbarang" name="jumlahbarang" /><br />
+        Gambar :<input type="file" id="gbr" name="gbr" />
+        <hr />
+        
+        <button onclick="getData()">Get Data</button> <br />
+        <button onclick="postData()">Send Data</button> <br />
+        <button onclick="putData()">Edit Data</button> <br />
+        <button onclick="delData()">Delete Data</button> <br />
+        <hr />
+        <div id="view"></div>
+    </body>
+</html>
